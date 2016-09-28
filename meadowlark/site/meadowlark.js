@@ -9,7 +9,7 @@ app.set('view engine','handlebars')
 var fortune = require('./lib/fortune.js')
 
 app.set('port' , process.env.PORT || 3000)
-
+// app.disable('x-powered-by')
 // test
 app.use(function(req,res,next){
   res.locals.showTests = app.get('env') !== 'production' && req.query.test === '1'
@@ -47,6 +47,21 @@ app.get('/tours/hood-river',function(req,res){
 app.get('/tours/request-group-rate',function(req,res){
   res.render('tours/request-group-rate')
 })
+
+
+
+// app.get('/test',function(req,res){
+//   res.json(200,{name:"songbin",age:12})
+// })
+
+app.get('/test', function(req, res) {
+    console.log(req.query.name);
+    console.log(req.query.tel);
+
+    res.json({name:'songbin'})
+});
+
+// 需要放在底部
 
 app.use(function(req,res){
   // res.type('text/plain')
