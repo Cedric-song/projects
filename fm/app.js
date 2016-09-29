@@ -1,6 +1,11 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 
+var mongoose = require('mongoose')
+var models = require('./models')
+var User = models.User
+
+mongoose.connect('mongodb://localhost/test')
 var app = express();
 var server = require('http').createServer(app);
 
@@ -37,8 +42,16 @@ app.get('/test/upload', function(req, res) {
 
 app.post('/test/upload/add', function(req, res) {
     
+    debugger
     
     var data = req.body
+
+    User.update(
+      {email:data.email},
+      {password:data.password},
+      {upsert:true}
+    )
+    
     res.json({status:'success',password:data.password,email:data.email,remember:data.remember})
 });
 
