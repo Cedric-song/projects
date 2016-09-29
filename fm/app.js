@@ -1,8 +1,20 @@
-var express = require('express')
+var express = require('express');
+var bodyParser = require('body-parser');
 
-var app = express()
+var app = express();
+var server = require('http').createServer(app);
+
+app.use(bodyParser.json({limit: '1mb'}));  //body-parser 解析json格式数据
+app.use(bodyParser.urlencoded({            //此项必须在 bodyParser.json 下面,为参数编码
+  extended: true
+}));
 
 app.set('port', process.env.PORT || 3000)
+
+
+
+// 存储数据的位置
+var dataDir = __dirname + '/data'
 
 // 静态资源
 app.use(express.static(__dirname + '/public'))
@@ -16,12 +28,19 @@ app.get('/index',function(req,res){
 })
 
 app.post('/test', function(req, res) {
-    res.json({status:'success',name:req.query.name,password:req.query.password})
+    res.json({status:'success',password:12333})
 });
 
+app.get('/test/upload', function(req, res) {
+    res.sendFile(__dirname + '/views/test/test-upload.html')
+});
 
-
-
+app.post('/test/upload/add', function(req, res) {
+    
+    
+    var data = req.body
+    res.json({status:'success',password:data.password,email:data.email,remember:data.remember})
+});
 
 
 app.use(function(req,res){

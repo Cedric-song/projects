@@ -51,6 +51,7 @@
     /* Send the data using post and put the results in a div */
     $.post( url, { name: name ,password : password},
       function( data ) {
+        debugger
         if(data.status === "success"){
           document.write("注册成功！！！")
         }
